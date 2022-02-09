@@ -1,5 +1,5 @@
-import express from 'express'
-import { registry } from 'api/registry'
-const app = express()
+import { app } from 'server'
 
-app.get('/package/:id/:version?', registry)
+app.listen(3000, () => {
+	console.log('server up and running at port 3000')
+})
