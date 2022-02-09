@@ -1,6 +1,9 @@
 import express from 'express'
 import { registry } from 'api/registry'
 export const app = express()
+import cors from 'cors'
+
+app.use(cors())
 
 app.get('/package/:id/:version?', (req, res, next) => {
 	const { id, version } = req.params

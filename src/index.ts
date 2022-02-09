@@ -1,13 +1,14 @@
 import { app } from 'server'
 import greenlock from 'greenlock-express'
+import path from 'path'
 
 greenlock
 	.init({
-		packageRoot: __dirname,
+		packageRoot: path.resolve(__dirname),
 		configDir: './greenlock.d',
 
 		// contact for security and critical bug notices
-		maintainerEmail: 'jon@example.com',
+		maintainerEmail: 'limteikyee@gmail.com',
 
 		// whether or not to run at cloudscale
 		cluster: false,
