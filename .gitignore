@@ -1,0 +1,7 @@
+/node_modules
+/dist
+/types
+/coverage
+**/*.tgz
+firestore.rules
+/out

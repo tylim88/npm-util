@@ -1,0 +1,30 @@
+# folder
+/.circleci 
+/.github
+/node_modules
+/src
+/coverage
+/.husky
+/out
+
+# ignore file
+.gitignore
+.npmignore
+
+# config file
+jest.config.js
+tsconfig.json
+.eslintrc.js
+.prettierrc.js
+babel.config.js    
+
+# types
+/types/**/*
+!/types/**/*.ts
+**/*.test.d.ts
+**/*.test.js
+**/*.tgz
+
+# misc
+CHANGELOG.md
+package-lock.json
