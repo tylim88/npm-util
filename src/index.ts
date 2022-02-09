@@ -1,5 +1,17 @@
 import { app } from 'server'
+import greenlock from 'greenlock-express'
 
-app.listen(3000, () => {
-	console.log('server up and running at port 3000')
-})
+greenlock
+	.init({
+		packageRoot: __dirname,
+		configDir: './greenlock.d',
+
+		// contact for security and critical bug notices
+		maintainerEmail: 'jon@example.com',
+
+		// whether or not to run at cloudscale
+		cluster: false,
+	})
+	// Serves on 80 and 443
+	// Get's SSL certificates magically!
+	.serve(app)

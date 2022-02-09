@@ -24,7 +24,7 @@ export const registry = (id: string, version?: string) => {
 				: { error: 'version not found', status: 404 }
 		} else {
 			return {
-				error: version ? 'version not found' : 'no latest stable version',
+				error: 'version not found',
 				status: 404,
 			}
 		}

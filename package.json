@@ -67,6 +67,7 @@
 	"dependencies": {
 		"axios": "^0.25.0",
 		"express": "^4.17.2",
+		"greenlock-express": "^4.0.3",
 		"latest-semver": "^3.0.0",
 		"zod": "^3.11.6"
 	}
