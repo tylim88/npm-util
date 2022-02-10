@@ -1,18 +1,23 @@
 import { app } from 'server'
-import greenlock from 'greenlock-express'
-import path from 'path'
+import { job } from 'allName'
+// https://stackoverflow.com/a/42505940/5338829
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const greenlock = require('greenlock-express')
 
-greenlock
-	.init({
-		packageRoot: path.resolve(__dirname),
-		configDir: './greenlock.d',
+job.start()
 
-		// contact for security and critical bug notices
-		maintainerEmail: 'limteikyee@gmail.com',
+export const startServer = (rootPath: string) =>
+	greenlock
+		.init({
+			packageRoot: rootPath,
+			configDir: './greenlock.d',
 
-		// whether or not to run at cloudscale
-		cluster: false,
-	})
-	// Serves on 80 and 443
-	// Get's SSL certificates magically!
-	.serve(app)
+			// contact for security and critical bug notices
+			maintainerEmail: process.env.email,
+
+			// whether or not to run at cloudscale
+			cluster: false,
+		})
+		// Serves on 80 and 443
+		// Get's SSL certificates magically!
+		.serve(app)
