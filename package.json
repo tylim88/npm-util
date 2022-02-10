@@ -11,7 +11,7 @@
 		"prettier": "npx pretty-quick --staged",
 		"test": "jest",
 		"pre-commit": "npm run tsc && npm run lint --fix && npm run prettier",
-		"p": "env-cmd -f .env ts-node ./start.ts"
+		"start": "env-cmd -f .env ts-node ./start.ts"
 	},
 	"repository": {
 		"type": "git",

@@ -1,21 +1,29 @@
 import { load, sync } from 'all-package-names'
 import cron from 'cron'
 
-let allName: string[] = []
+export const pck: { names: string[] } = { names: [] }
 
-export const firstLoad = (allName: string[]) =>
+export const firstLoad = (pck: { names: string[] }) =>
 	load().then(({ packageNames }) => {
-		console.log(packageNames[1])
-		allName = packageNames
+		pck.names = packageNames
 	})
 
-export const job = new cron.CronJob(
-	'* 0 0 * * *',
-	() =>
-		sync().then(({ packageNames }) => {
-			allName = packageNames
-		}),
-	null,
-	false,
-	'Asia/Kuala_Lumpur'
-)
+export const syncLater = (pck: { names: string[] }) =>
+	sync().then(({ packageNames }) => {
+		pck.names = packageNames
+	})
+
+export const job = (
+	cronTime: string,
+	callback: (...args: unknown[]) => unknown,
+	runOnInit?: boolean
+) =>
+	new cron.CronJob(
+		cronTime,
+		callback,
+		null,
+		false,
+		'Asia/Kuala_Lumpur',
+		undefined,
+		runOnInit
+	)

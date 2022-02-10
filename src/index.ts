@@ -1,10 +1,7 @@
 import { app } from 'server'
-import { job } from 'allName'
 // https://stackoverflow.com/a/42505940/5338829
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const greenlock = require('greenlock-express')
-
-job.start()
 
 export const startServer = (rootPath: string) =>
 	greenlock

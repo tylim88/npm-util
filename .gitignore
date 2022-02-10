@@ -6,3 +6,4 @@
 firestore.rules
 /out
 .env
+/greenlock.d

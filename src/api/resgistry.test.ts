@@ -2,10 +2,10 @@ import { app } from 'server'
 import 'jest'
 import superTest from 'supertest'
 
-const sapp = superTest(app)
+const sApp = superTest(app)
 describe('Get /package/:id/:version?', () => {
 	it('test 0 dependency gxz package', async () => {
-		const res = await sapp.get('/package/gxz')
+		const res = await sApp.get('/package/gxz')
 		expect(res.status).toBe(200)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
@@ -15,7 +15,7 @@ describe('Get /package/:id/:version?', () => {
 		})
 	})
 	it('test 1 dependency axios package', async () => {
-		const res = await sapp.get('/package/axios')
+		const res = await sApp.get('/package/axios')
 		expect(res.status).toBe(200)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
@@ -25,7 +25,7 @@ describe('Get /package/:id/:version?', () => {
 		})
 	})
 	it('test old version express package', async () => {
-		const res = await sapp.get('/package/express/3.20.1')
+		const res = await sApp.get('/package/express/3.20.1')
 		expect(res.status).toBe(200)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
@@ -35,7 +35,7 @@ describe('Get /package/:id/:version?', () => {
 		})
 	})
 	it('test non-existing package', async () => {
-		const res = await sapp.get('/package/express1234567890')
+		const res = await sApp.get('/package/express1234567890')
 		expect(res.status).toBe(404)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
@@ -43,7 +43,7 @@ describe('Get /package/:id/:version?', () => {
 		})
 	})
 	it('test non-existing version', async () => {
-		const res = await sapp.get('/package/gxz/1000')
+		const res = await sApp.get('/package/gxz/1000')
 		expect(res.status).toBe(404)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
@@ -51,7 +51,7 @@ describe('Get /package/:id/:version?', () => {
 		})
 	})
 	it('test invalid version', async () => {
-		const res = await sapp.get('/package/gxz/unicorn')
+		const res = await sApp.get('/package/gxz/unicorn')
 		expect(res.status).toBe(404)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({

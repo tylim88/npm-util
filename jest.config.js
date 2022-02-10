@@ -10,5 +10,5 @@ module.exports = {
 	},
 	moduleDirectories: ['node_modules', 'src'],
 	collectCoverage: true,
-	collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}'],
+	collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts'],
 }
