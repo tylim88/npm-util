@@ -14,7 +14,8 @@
 		"build": "env-cmd -f .config/prod.env rm -rf dist && rm -rf types && babel src --out-dir dist --extensions \".ts\"",
 		"start": "ts-node ./start.ts",
 		"dev": "env-cmd -f .config/dev.env nodemon src/index.ts",
-		"prod": "npm run build && env-cmd -f .config/prod.env ts-node start.ts"
+		"prod": "npm run build && env-cmd -f .config/prod.env ts-node start.ts",
+		"tn": "ts-node src/api/availableNames.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -77,6 +78,7 @@
 		"cron": "^1.8.2",
 		"express": "^4.17.2",
 		"greenlock-express": "^4.0.3",
+		"helmet": "^5.0.2",
 		"latest-semver": "^3.0.0",
 		"loadash": "^1.0.0",
 		"zod": "^3.11.6"

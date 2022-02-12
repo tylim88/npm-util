@@ -1,16 +1,20 @@
 import { load, sync } from 'all-package-names'
 import cron from 'cron'
 
-export const pkg: { names: string[] } = { names: [] }
+export const packageNameLookUp: Record<string, boolean> = {}
 
-export const firstLoad = (pkg: { names: string[] }) =>
+export const firstLoad = (pkg: typeof packageNameLookUp) =>
 	load().then(({ packageNames }) => {
-		pkg.names = packageNames.map(item => item.toLowerCase())
+		packageNames.forEach(item => {
+			pkg[item.toLowerCase()] = true
+		})
 	})
 
-export const syncLater = (pkg: { names: string[] }) =>
+export const syncLater = (pkg: typeof packageNameLookUp) =>
 	sync().then(({ packageNames }) => {
-		pkg.names = packageNames.map(item => item.toLowerCase())
+		packageNames.forEach(item => {
+			pkg[item.toLowerCase()] = true
+		})
 	})
 
 export const job = (

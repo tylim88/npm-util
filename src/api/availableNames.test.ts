@@ -1,5 +1,5 @@
 import 'jest'
-import { availableNames } from './availableNames'
+import { availableNames, limit } from './availableNames'
 import superTest from 'supertest'
 import { app } from 'server'
 
@@ -7,7 +7,7 @@ const sApp = superTest(app)
 
 describe('', () => {
 	it('test *', () => {
-		expect(availableNames([['*']], { names: [] })).toEqual([
+		expect(availableNames([['*']], {})).toEqual([
 			'-',
 			'.',
 			'0',
@@ -50,16 +50,10 @@ describe('', () => {
 		])
 	})
 	it('test vowels', () => {
-		expect(availableNames([['vowels']], { names: [] })).toEqual([
-			'a',
-			'e',
-			'i',
-			'o',
-			'u',
-		])
+		expect(availableNames([['vowels']], {})).toEqual(['a', 'e', 'i', 'o', 'u'])
 	})
 	it('test consonants', () => {
-		expect(availableNames([['consonants']], { names: [] })).toEqual([
+		expect(availableNames([['consonants']], {})).toEqual([
 			'b',
 			'c',
 			'd',
@@ -84,13 +78,13 @@ describe('', () => {
 		])
 	})
 	it('test d', () => {
-		expect(availableNames([['9']], { names: [] })).toEqual(['9'])
+		expect(availableNames([['9']], {})).toEqual(['9'])
 	})
 	it('test a_z', () => {
-		expect(availableNames([['a']], { names: [] })).toEqual(['a'])
+		expect(availableNames([['a']], {})).toEqual(['a'])
 	})
 	it('test d_d', () => {
-		expect(availableNames([['0-8']], { names: [] })).toEqual([
+		expect(availableNames([['0-8']], {})).toEqual([
 			'0',
 			'1',
 			'2',
@@ -103,7 +97,7 @@ describe('', () => {
 		])
 	})
 	it('test a_z_a_z', () => {
-		expect(availableNames([['a-x']], { names: [] })).toEqual([
+		expect(availableNames([['a-x']], {})).toEqual([
 			'a',
 			'b',
 			'c',
@@ -131,13 +125,13 @@ describe('', () => {
 		])
 	})
 	it('test d_d same boundary', () => {
-		expect(availableNames([['0-0']], { names: [] })).toEqual(['0'])
+		expect(availableNames([['0-0']], {})).toEqual(['0'])
 	})
 	it('test a_z_a_z same boundary', () => {
-		expect(availableNames([['z-z']], { names: [] })).toEqual(['z'])
+		expect(availableNames([['z-z']], {})).toEqual(['z'])
 	})
 	it('test combination', () => {
-		expect(availableNames([['a-c'], ['1-3'], ['-']], { names: [] })).toEqual([
+		expect(availableNames([['a-c'], ['1-3'], ['-']], {})).toEqual([
 			'a1-',
 			'a2-',
 			'a3-',
@@ -152,7 +146,11 @@ describe('', () => {
 	it('filter', () => {
 		expect(
 			availableNames([['a-c'], ['1-3'], ['-']], {
-				names: ['a', 'b1-', 'b2-', 'b3-', '1234'],
+				a: true,
+				'b1-': true,
+				'b2-': true,
+				'b3-': true,
+				'1234': true,
 			})
 		).toEqual(['a1-', 'a2-', 'a3-', 'c1-', 'c2-', 'c3-'])
 	})
@@ -175,6 +173,24 @@ describe('', () => {
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
 			names: ['1', '2'],
+		})
+	})
+
+	it('test more than 2k result set', async () => {
+		const res = await sApp.post('/package/availableNames').send({
+			filters: [
+				['vowels'],
+				['consonants'],
+				['vowels'],
+				['consonants'],
+				['vowels'],
+				['consonants'],
+			],
+		})
+		expect(res.status).toBe(400)
+		expect(res.type).toEqual(expect.stringContaining('json'))
+		expect(res.body).toEqual({
+			error: 'result set exceeds ' + limit,
 		})
 	})
 })

@@ -1,12 +1,14 @@
 import express, { Request } from 'express'
 import { registry, availableNames, validateFilter } from 'api'
 export const app = express()
-import { pkg } from 'allName'
+import { packageNameLookUp } from 'allName'
 import cors from 'cors'
 import { z } from 'zod'
+import helmet from 'helmet'
 
 app.use(cors())
 app.use(express.json())
+app.use(helmet())
 
 app.get('/package/:id/:version?', (req, res, next) => {
 	const { id, version } = req.params
@@ -26,14 +28,17 @@ app.post(
 		req: Omit<Request, 'body'> & { body: z.infer<typeof validateFilter> },
 		res
 	) => {
-		const {
-			body,
-			body: { filters },
-		} = req
+		const { body } = req
 		if (!validateFilter.safeParse(body).success) {
 			return res.status(404).send({ error: 'malformed request' })
 		}
-		res.send({ names: availableNames(filters, pkg) })
+		const { filters } = body
+		try {
+			res.send({ names: availableNames(filters, packageNameLookUp) })
+		} catch (err) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			res.status((err as any)?.status).send({ error: (err as any)?.message })
+		}
 	}
 )
 

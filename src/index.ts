@@ -1,5 +1,5 @@
 import { app } from 'server'
-import { firstLoad, pkg, job, syncLater } from 'allName'
+import { firstLoad, packageNameLookUp, job, syncLater } from 'allName'
 // https://stackoverflow.com/a/42505940/5338829
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const greenlock = require('greenlock-express')
@@ -21,11 +21,11 @@ export const startServer = (rootPath: string) =>
 		.serve(app)
 
 export const initialization = () => {
-	firstLoad(pkg)
-	job('* 0 * * * *', () => syncLater(pkg), true).start()
+	firstLoad(packageNameLookUp)
+	job('* 0 * * * *', () => syncLater(packageNameLookUp), true).start()
 }
 process.env.DEV &&
-	app.listen(3000, () => {
+	app.listen(3001, () => {
 		initialization()
 		console.log('started')
 	})

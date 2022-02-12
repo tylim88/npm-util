@@ -1,22 +1,19 @@
 import { firstLoad, job, syncLater } from 'allName'
 import 'jest'
 
-jest.setTimeout(200e3)
 describe('test all Name', () => {
 	it('test syncLater', async () => {
-		const pkg: { names: string[] } = { names: [] }
+		const pkg: Record<string, boolean> = {}
 		await syncLater(pkg)
-		expect(pkg.names.length).toBeGreaterThan(1e6)
-		expect(typeof pkg.names[100]).toBe('string')
-	})
+		expect(Object.keys(pkg).length).toBeGreaterThan(1e6)
+	}, 150e3)
 	it('test job and load first', done => {
-		const pkg: { names: string[] } = { names: [] }
+		const pkg: Record<string, boolean> = {}
 		const j = job(
 			'* 0 1 * * *',
 			async () => {
 				await firstLoad(pkg)
-				expect(pkg.names.length).toBeGreaterThan(1e6)
-				expect(typeof pkg.names[100]).toBe('string')
+				expect(Object.keys(pkg).length).toBeGreaterThan(1e6)
 				done()
 			},
 			true

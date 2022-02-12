@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import betwin from 'betwin'
 import _ from 'lodash'
-import { pkg } from 'allName'
+import { packageNameLookUp, firstLoad } from 'allName'
 
 type num = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 type punt = '.' | '_' | '-'
@@ -36,17 +36,13 @@ type alp =
 type sound = 'vowels' | 'consonants'
 type char = num | punt | alp | sound | `${num}-${num}` | `${alp}-${alp}`
 
-const filters = z
-	.array(
+const filters = z.array(
+	z.array(
 		z
-			.array(
-				z
-					.string()
-					.regex(/^\d-\d|[a-z]-[a-z]|\d|^[a-z]|\.|-|_|\*|vowels|consonants|\$/i)
-			)
-			.max(7)
+			.string()
+			.regex(/^\d-\d|[a-z]-[a-z]|\d|^[a-z]|\.|-|_|\*|vowels|consonants|\$/i)
 	)
-	.max(7)
+)
 
 export const validateFilter = z.object({
 	filters,
@@ -85,7 +81,12 @@ const consonants = [
 const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 const punt = ['_', '.', '-']
 
-export const availableNames = (input: string[][], allNames: typeof pkg) => {
+export const limit = process.env.DEV ? 2e6 : 2e3
+
+export const availableNames = (
+	input: string[][],
+	allNames: typeof packageNameLookUp
+) => {
 	const generatedName = input.reduce<string[]>((acci, i) => {
 		const filtersOfSingleChar = i.reduce<string[]>((accj, j_) => {
 			const j = j_.toLowerCase()
@@ -113,6 +114,9 @@ export const availableNames = (input: string[][], allNames: typeof pkg) => {
 		}, [])
 
 		const unique = _.uniq(filtersOfSingleChar)
+		if (unique.length * (acci.length || 1) > limit) {
+			throw { status: 400, message: 'result set exceeds ' + limit }
+		}
 		return _.sortBy(
 			unique.reduce<string[]>((accx, x) => {
 				return accx.concat(acci.length > 0 ? acci.map(y => y + x) : x)
@@ -120,8 +124,5 @@ export const availableNames = (input: string[][], allNames: typeof pkg) => {
 		)
 	}, [])
 
-	const allNameFilteredByLength = allNames.names.filter(
-		i => i.length === input.length
-	)
-	return generatedName.filter(i => !allNameFilteredByLength.includes(i))
+	return generatedName.filter(i => !allNames[i])
 }
