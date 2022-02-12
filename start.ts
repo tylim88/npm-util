@@ -1,5 +1,5 @@
 import { startServer } from './src/index'
-import { firstLoad, pck, job, syncLater } from './src/allName'
-firstLoad(pck)
-job('* 0 * * * *', () => syncLater(pck)).start()
+import { firstLoad, pkg, job, syncLater } from './src/allName'
+firstLoad(pkg)
+job('* 0 * * * *', () => syncLater(pkg), true).start()
 startServer(__dirname)

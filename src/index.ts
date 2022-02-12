@@ -10,7 +10,7 @@ export const startServer = (rootPath: string) =>
 			configDir: './greenlock.d',
 
 			// contact for security and critical bug notices
-			maintainerEmail: process.env.email,
+			maintainerEmail: process.env.EMAIL,
 
 			// whether or not to run at cloudscale
 			cluster: false,

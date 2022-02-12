@@ -5,5 +5,5 @@
 **/*.tgz
 firestore.rules
 /out
-.env
+/.config
 /greenlock.d
