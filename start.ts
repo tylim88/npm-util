@@ -1,5 +1,4 @@
-import { startServer } from './src/index'
-import { firstLoad, pkg, job, syncLater } from './src/allName'
-firstLoad(pkg)
-job('* 0 * * * *', () => syncLater(pkg), true).start()
+import { startServer, initialization } from './dist/index'
+import { firstLoad, pkg, job, syncLater } from './dist/allName'
+initialization()
 startServer(__dirname)

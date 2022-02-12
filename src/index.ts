@@ -1,4 +1,5 @@
 import { app } from 'server'
+import { firstLoad, pkg, job, syncLater } from 'allName'
 // https://stackoverflow.com/a/42505940/5338829
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const greenlock = require('greenlock-express')
@@ -18,3 +19,13 @@ export const startServer = (rootPath: string) =>
 		// Serves on 80 and 443
 		// Get's SSL certificates magically!
 		.serve(app)
+
+export const initialization = () => {
+	firstLoad(pkg)
+	job('* 0 * * * *', () => syncLater(pkg), true).start()
+}
+process.env.DEV &&
+	app.listen(3000, () => {
+		initialization()
+		console.log('started')
+	})

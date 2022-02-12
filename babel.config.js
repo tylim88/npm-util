@@ -16,7 +16,7 @@ module.exports = function (api) {
 				},
 			],
 		].concat(
-			process.env.NODE_ENV === 'dev'
+			process.env.DEV
 				? []
 				: [['transform-remove-console', { exclude: ['error', 'warn'] }]]
 		), // remove console.log in production,,
