@@ -11,11 +11,11 @@
 		"prettier": "npx pretty-quick --staged",
 		"test": "jest",
 		"pre-commit": "npm run tsc && npm run lint --fix && npm run prettier",
-		"build": "env-cmd -f .config/prod.env rm -rf dist && rm -rf types && babel src --out-dir dist --extensions \".ts\"",
+		"build": "rm -rf dist && rm -rf types && babel src --out-dir dist --extensions \".ts\"",
 		"start": "ts-node ./start.ts",
+		"tn": "ts-node src/api/availableNames.ts",
 		"dev": "env-cmd -f .config/dev.env nodemon src/index.ts",
-		"prod": "npm run build && env-cmd -f .config/prod.env ts-node start.ts",
-		"tn": "ts-node src/api/availableNames.ts"
+		"prod": "env-cmd -f .config/prod.env npm run build && env-cmd -f .config/prod.env ts-node start.ts"
 	},
 	"repository": {
 		"type": "git",
