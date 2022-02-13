@@ -1,12 +1,12 @@
 import express, { Request } from 'express'
-import { registry, availableNames, validateFilter } from 'api'
+import { registry, availableNames, validateFilter, maxLimit } from 'api'
 export const app = express()
 import { packageNameLookUp } from 'allName'
 import cors from 'cors'
 import { z } from 'zod'
 import helmet from 'helmet'
 
-app.use(cors())
+app.use(cors({ origin: 'https://npmutil.com' }))
 app.use(express.json())
 app.use(helmet())
 
@@ -34,7 +34,7 @@ app.post(
 		}
 		const { filters } = body
 		try {
-			res.send({ names: availableNames(filters, packageNameLookUp) })
+			res.send({ names: availableNames(filters, packageNameLookUp), maxLimit })
 		} catch (err) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			res.status((err as any)?.status).send({ error: (err as any)?.message })

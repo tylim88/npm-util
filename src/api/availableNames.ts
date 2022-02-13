@@ -1,48 +1,10 @@
 import { z } from 'zod'
 import betwin from 'betwin'
 import _ from 'lodash'
-import { packageNameLookUp, firstLoad } from 'allName'
+import { packageNameLookUp } from 'allName'
+import { filtersRegex } from 'share'
 
-type num = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-type punt = '.' | '_' | '-'
-type alp =
-	| 'a'
-	| 'b'
-	| 'c'
-	| 'd'
-	| 'e'
-	| 'f'
-	| 'g'
-	| 'h'
-	| 'i'
-	| 'j'
-	| 'k'
-	| 'l'
-	| 'm'
-	| 'n'
-	| 'o'
-	| 'p'
-	| 'q'
-	| 'r'
-	| 's'
-	| 't'
-	| 'u'
-	| 'v'
-	| 'w'
-	| 'x'
-	| 'y'
-	| 'z'
-
-type sound = 'vowels' | 'consonants'
-type char = num | punt | alp | sound | `${num}-${num}` | `${alp}-${alp}`
-
-const filters = z.array(
-	z.array(
-		z
-			.string()
-			.regex(/^\d-\d|[a-z]-[a-z]|\d|^[a-z]|\.|-|_|\*|vowels|consonants|\$/i)
-	)
-)
+const filters = z.array(z.array(z.string().regex(filtersRegex)))
 
 export const validateFilter = z.object({
 	filters,
@@ -81,7 +43,9 @@ const consonants = [
 const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 const punt = ['_', '.', '-']
 
-export const limit = process.env.DEV ? 2e6 : 2e3
+export const maxLimit = 1e5
+
+export const limit = process.env.DEV ? 2e6 : maxLimit
 
 export const availableNames = (
 	input: string[][],
@@ -106,7 +70,7 @@ export const availableNames = (
 			) {
 				arr = [j]
 			} else if (d_d.safeParse(j).success || a_z_a_z.safeParse(j).success) {
-				const [f, l] = j.split('-')
+				const [f, l] = j.split('-') as [string, string]
 				arr = [f, ...(betwin(f, l) || []), l]
 			}
 			const result = accj.concat(arr)
