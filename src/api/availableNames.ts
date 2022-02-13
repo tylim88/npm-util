@@ -2,13 +2,7 @@ import { z } from 'zod'
 import betwin from 'betwin'
 import _ from 'lodash'
 import { packageNameLookUp } from 'allName'
-import { filtersRegex, maxLimit } from 'share'
-
-const filters = z.array(z.array(z.string().regex(filtersRegex)))
-
-export const validateFilter = z.object({
-	filters,
-})
+import { availableNameLimit } from 'share'
 
 const d_d = z.string().regex(/^\d-\d$/)
 const a_z_a_z = z.string().regex(/^[a-z]-[a-z]$/i)
@@ -43,7 +37,7 @@ const consonants = [
 const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 const punt = ['_', '.', '-']
 
-export const limit = process.env.DEV ? 2e6 : maxLimit
+export const limit = process.env.DEV ? 2e6 : availableNameLimit
 
 export const availableNames = (
 	input: string[][],
@@ -69,7 +63,7 @@ export const availableNames = (
 				arr = [j]
 			} else if (d_d.safeParse(j).success || a_z_a_z.safeParse(j).success) {
 				const [f, l] = j.split('-') as [string, string]
-				arr = [f, ...(betwin(f, l) || []), l]
+				arr = f === l ? [f] : [f, ...(betwin(f, l) || []), l]
 			}
 			const result = accj.concat(arr)
 			return result

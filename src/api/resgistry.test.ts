@@ -10,7 +10,8 @@ describe('Get /package/:id/:version?', () => {
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
 			dependencies: {
-				count: 0,
+				count: 'ZERO',
+				color: 'brightgreen',
 			},
 		})
 	})
@@ -21,6 +22,7 @@ describe('Get /package/:id/:version?', () => {
 		expect(res.body).toEqual({
 			dependencies: {
 				count: 1,
+				color: 'green',
 			},
 		})
 	})
@@ -31,6 +33,7 @@ describe('Get /package/:id/:version?', () => {
 		expect(res.body).toEqual({
 			dependencies: {
 				count: 21,
+				color: 'orange',
 			},
 		})
 	})
