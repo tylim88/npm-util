@@ -1,5 +1,5 @@
 import express, { Request } from 'express'
-import { registry, availableNames, validateFilter, maxLimit } from 'api'
+import { registry, availableNames, validateFilter } from 'api'
 export const app = express()
 import { packageNameLookUp } from 'allName'
 import cors from 'cors'
@@ -34,7 +34,7 @@ app.post(
 		}
 		const { filters } = body
 		try {
-			res.send({ names: availableNames(filters, packageNameLookUp), maxLimit })
+			res.send({ names: availableNames(filters, packageNameLookUp) })
 		} catch (err) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			res.status((err as any)?.status).send({ error: (err as any)?.message })

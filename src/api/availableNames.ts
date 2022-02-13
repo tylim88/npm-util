@@ -2,7 +2,7 @@ import { z } from 'zod'
 import betwin from 'betwin'
 import _ from 'lodash'
 import { packageNameLookUp } from 'allName'
-import { filtersRegex } from 'share'
+import { filtersRegex, maxLimit } from 'share'
 
 const filters = z.array(z.array(z.string().regex(filtersRegex)))
 
@@ -42,8 +42,6 @@ const consonants = [
 
 const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 const punt = ['_', '.', '-']
-
-export const maxLimit = 1e5
 
 export const limit = process.env.DEV ? 2e6 : maxLimit
 

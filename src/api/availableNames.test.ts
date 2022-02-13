@@ -1,5 +1,5 @@
 import 'jest'
-import { availableNames, limit, maxLimit } from './availableNames'
+import { availableNames, limit } from './availableNames'
 import superTest from 'supertest'
 import { app } from 'server'
 
@@ -173,7 +173,6 @@ describe('', () => {
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
 			names: ['1', '2'],
-			maxLimit,
 		})
 	})
 

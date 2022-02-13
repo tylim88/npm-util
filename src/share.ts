@@ -1,2 +1,4 @@
 export const filtersRegex =
-	/^\d-\d|[a-z]-[a-z]|\d|^[a-z]|\.|-|_|\*|vowels|consonants|\$/i
+	/^\d-\d$|^[a-z]-[a-z]$|^\d$|^[a-z]$|^\.$|^-$|^_$|^\*$|^vowels$|^consonants$|\$/i
+
+export const maxLimit = 6
