@@ -6,10 +6,20 @@ import cors from 'cors'
 import { z } from 'zod'
 import helmet from 'helmet'
 import { availableNameShape, packageShape } from 'share'
+import rateLimit from 'express-rate-limit'
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+const names = '/package/availableNames'
 
 app.use(cors({ origin: process.env.ORIGIN }))
 app.use(express.json())
 app.use(helmet())
+app.use(names, limiter)
 
 app.get('/package/:id/:version?', (req, res, next) => {
 	const { id, version } = req.params
@@ -25,7 +35,7 @@ app.get('/package/:id/:version?', (req, res, next) => {
 })
 
 app.post(
-	'/package/availableNames',
+	names,
 	(
 		req: Omit<Request, 'body'> & {
 			body: z.infer<typeof availableNameShape['req']>

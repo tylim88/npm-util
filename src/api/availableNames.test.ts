@@ -52,6 +52,12 @@ describe('', () => {
 	it('test vowels', () => {
 		expect(availableNames([['vowels']], {})).toEqual(['a', 'e', 'i', 'o', 'u'])
 	})
+	it('test same range a_z', () => {
+		expect(availableNames([['a-a']], {})).toEqual(['a'])
+	})
+	it('test same range d_d', () => {
+		expect(availableNames([['1-1']], {})).toEqual(['1'])
+	})
 	it('test consonants', () => {
 		expect(availableNames([['consonants']], {})).toEqual([
 			'b',

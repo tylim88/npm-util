@@ -77,6 +77,7 @@
 		"cors": "^2.8.5",
 		"cron": "^1.8.2",
 		"express": "^4.17.2",
+		"express-rate-limit": "^6.2.1",
 		"greenlock-express": "^4.0.3",
 		"helmet": "^5.0.2",
 		"latest-semver": "^3.0.0",
