@@ -24,8 +24,10 @@ export const initialization = () => {
 	firstLoad(packageNameLookUp)
 	job('* 0 * * * *', () => syncLater(packageNameLookUp), true).start()
 }
+const port = 3001
+
 process.env.DEV &&
-	app.listen(3001, () => {
+	app.listen(port, () => {
 		initialization()
-		console.log('started')
+		console.log('started at port ', port)
 	})

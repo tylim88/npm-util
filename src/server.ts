@@ -7,7 +7,7 @@ import { z } from 'zod'
 import helmet from 'helmet'
 import { availableNameShape, packageShape } from 'share'
 
-app.use(cors({ origin: 'https://npmutil.com' }))
+app.use(cors({ origin: process.env.ORIGIN }))
 app.use(express.json())
 app.use(helmet())
 
