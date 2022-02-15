@@ -15,7 +15,7 @@
 		"start": "ts-node ./start.ts",
 		"tn": "ts-node src/api/availableNames.ts",
 		"dev": "env-cmd -f .config/dev.env nodemon src/index.ts",
-		"prod": "env-cmd -f .config/prod.env npm run build && env-cmd -f .config/prod.env ts-node start.ts"
+		"prod": "env-cmd -f .config/prod.env npm run build && env-cmd -f .config/prod.env babel-node --presets @babel/env start.js"
 	},
 	"repository": {
 		"type": "git",
