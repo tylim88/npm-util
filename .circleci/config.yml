@@ -6,7 +6,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.2
 jobs:
-  build:
+  build-and-test:
     docker:
       # specify the version you desire here
       - image: circleci/node:14.18
@@ -46,19 +46,21 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-  pull-and-build:
+  deploy:
     docker:
       - image: arvindr226/alpine-ssh
     steps:
       - checkout
-      - run: ssh -oStrictHostKeyChecking=no -v ${USER}@${IP} "./deploy.sh"
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
 # https://www.digitalocean.com/community/tutorials/how-to-automate-deployment-using-circleci-and-github-on-ubuntu-18-04
 workflows:
   version: 2
-  build-project:
+  build-test-deploy:
     jobs:
-      - build
-      - pull-and-build:
+      - build-and-test
+      - deploy:
+          requires:
+            - build-and-test
           filters:
             branches:
               only:
