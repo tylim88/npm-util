@@ -2,7 +2,7 @@ import { z } from 'zod'
 export const filtersRegex =
 	/^\d-\d$|^[a-z]-[a-z]$|^\d$|^[a-z]$|^\.$|^-$|^_$|^\*$|^vowels$|^consonants$|\$/i
 
-export const availableNameLimit = 1e4
+export const availableNameLimit = 1e5
 
 export const availableNameShape = {
 	req: z.object({
