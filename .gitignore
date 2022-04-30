@@ -4,6 +4,5 @@
 /coverage
 **/*.tgz
 firestore.rules
-/out
 /.config
 /greenlock.d
