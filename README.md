@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/tylim88/npm-util?color=blue)](https://github.com/tylim88/npm-util/blob/main/LICENSE) [![circleci](https://circleci.com/gh/tylim88/npm-util.svg?style=shield)](https://app.circleci.com/pipelines/github/tylim88/npm-util) [![codecov](https://codecov.io/gh/tylim88/npm-util/branch/main/graph/badge.svg?token=ydKwaMs7Yl)](https://codecov.io/gh/tylim88/npm-util)
 
-backend for npm utility.
+backend of [npm utility](https://github.com/tylim88/npm-util-front-end).
 
 ## api
 
