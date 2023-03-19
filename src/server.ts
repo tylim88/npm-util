@@ -46,10 +46,10 @@ app.post(
 		if (!availableNameShape.req.safeParse(body).success) {
 			return res.status(404).send({ error: 'malformed request' })
 		}
-		const { filters } = body
+		const { filters, isOrg } = body
 		try {
 			const data: z.infer<typeof availableNameShape['res']> = {
-				names: availableNames(filters, packageNameLookUp),
+				names: availableNames(filters, packageNameLookUp, isOrg),
 			}
 			res.send(data)
 		} catch (err) {
@@ -64,5 +64,5 @@ app.use((err: any, req: any, res: any, next: any) => {
 	// all 4 param must be available or else express wont recognize this as error handling middle ware
 	res
 		.status(err?.response?.status || 500)
-		.send(err?.response?.data || 'Something broke!')
+		.send(err?.response?.data || 'Something wrong!')
 })

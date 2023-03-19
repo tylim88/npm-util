@@ -21,7 +21,7 @@ describe('Get /package/:id/:version?', () => {
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
 			dependencies: {
-				count: 1,
+				count: 3,
 				color: 'green',
 			},
 		})

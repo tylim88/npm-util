@@ -7,6 +7,7 @@ export const availableNameLimit = 1e5
 export const availableNameShape = {
 	req: z.object({
 		filters: z.array(z.array(z.string().regex(filtersRegex))),
+		isOrg: z.boolean().optional(),
 	}),
 	res: z.object({ names: z.array(z.string()) }),
 }

@@ -3,17 +3,19 @@ import cron from 'cron'
 
 export const packageNameLookUp: Record<string, boolean> = {}
 
+const getOrgOnlyName = (v: string) => v.split('/')[0]!
+
 export const firstLoad = (pkg: typeof packageNameLookUp) =>
 	load().then(({ packageNames }) => {
 		packageNames.forEach(item => {
-			pkg[item.toLowerCase()] = true
+			pkg[getOrgOnlyName(item).toLowerCase()] = true
 		})
 	})
 
 export const syncLater = (pkg: typeof packageNameLookUp) =>
 	sync().then(({ packageNames }) => {
 		packageNames.forEach(item => {
-			pkg[item.toLowerCase()] = true
+			pkg[getOrgOnlyName(item).toLowerCase()] = true
 		})
 	})
 

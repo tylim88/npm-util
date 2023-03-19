@@ -199,4 +199,15 @@ describe('', () => {
 			error: 'result set exceeds ' + limit,
 		})
 	})
+
+	it('test isOrg', async () => {
+		const res = await sApp
+			.post('/package/availableNames')
+			.send({ filters: [['t'], ['r'], ['p'], ['c']], isOrg: true })
+		expect(res.status).toBe(200)
+		expect(res.type).toEqual(expect.stringContaining('json'))
+		expect(res.body).toEqual({
+			names: ['@trpc'],
+		})
+	})
 })

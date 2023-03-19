@@ -41,7 +41,8 @@ export const limit = process.env.DEV ? 2e6 : availableNameLimit
 
 export const availableNames = (
 	input: string[][],
-	allNames: typeof packageNameLookUp
+	allNames: typeof packageNameLookUp,
+	isOrg?: boolean
 ) => {
 	const generatedName = input.reduce<string[]>((acci, i) => {
 		const filtersOfSingleChar = i.reduce<string[]>((accj, j_) => {
@@ -79,6 +80,7 @@ export const availableNames = (
 			}, [])
 		)
 	}, [])
-
-	return generatedName.filter(i => !allNames[i])
+	return generatedName
+		.map(i => (isOrg ? '@' : '') + i)
+		.filter(i => !allNames[i])
 }
