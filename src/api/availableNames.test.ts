@@ -2,10 +2,11 @@ import 'jest'
 import { availableNames, limit } from './availableNames'
 import superTest from 'supertest'
 import { app } from 'server'
-
+import { firstLoad, packageNameLookUp } from '../allName'
 const sApp = superTest(app)
 
-describe('', () => {
+describe('test available name', () => {
+	beforeAll(() => firstLoad(packageNameLookUp))
 	it('test *', () => {
 		expect(availableNames([['*']], {})).toEqual([
 			'-',
@@ -178,7 +179,7 @@ describe('', () => {
 		expect(res.status).toBe(200)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
-			names: ['1', '2'],
+			names: [],
 		})
 	})
 
@@ -200,14 +201,39 @@ describe('', () => {
 		})
 	})
 
-	it('test isOrg', async () => {
+	it('test used isOrg', async () => {
 		const res = await sApp
 			.post('/package/availableNames')
 			.send({ filters: [['t'], ['r'], ['p'], ['c']], isOrg: true })
 		expect(res.status).toBe(200)
 		expect(res.type).toEqual(expect.stringContaining('json'))
 		expect(res.body).toEqual({
-			names: ['@trpc'],
+			names: [],
+		})
+	})
+
+	it('test unused isOrg', async () => {
+		const res = await sApp.post('/package/availableNames').send({
+			filters: [
+				['t'],
+				['r'],
+				['p'],
+				['c'],
+				['t'],
+				['r'],
+				['p'],
+				['c'],
+				['t'],
+				['r'],
+				['p'],
+				['c'],
+			],
+			isOrg: true,
+		})
+		expect(res.status).toBe(200)
+		expect(res.type).toEqual(expect.stringContaining('json'))
+		expect(res.body).toEqual({
+			names: ['@trpctrpctrpc'],
 		})
 	})
 })

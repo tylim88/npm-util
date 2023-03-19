@@ -1,9 +1,10 @@
 import { app } from 'server'
 import 'jest'
 import superTest from 'supertest'
-
+import { firstLoad, packageNameLookUp } from '../allName'
 const sApp = superTest(app)
 describe('Get /package/:id/:version?', () => {
+	beforeAll(() => firstLoad(packageNameLookUp))
 	it('test 0 dependency gxz package', async () => {
 		const res = await sApp.get('/package/gxz')
 		expect(res.status).toBe(200)
