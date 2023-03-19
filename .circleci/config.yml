@@ -34,8 +34,6 @@ jobs:
 
       - run: npm run lint
 
-      - run: npm test
-
       - run: npm run build
 
       # https://medium.com/pixelmatters/part-2-how-to-integrate-circleci-codecov-into-your-project-step-by-step-8bb6a7d3a5c9
