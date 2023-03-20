@@ -80,7 +80,8 @@ export const availableNames = (
 			}, [])
 		)
 	}, [])
-	return generatedName
+	const result = generatedName
 		.map(i => (isOrg ? '@' : '') + i)
 		.filter(i => !allNames[i])
+	return result
 }
